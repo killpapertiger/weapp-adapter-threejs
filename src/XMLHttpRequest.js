@@ -142,4 +142,15 @@ export default class XMLHttpRequest {
     myHeader[header] = value
     _requestHeader.set(this, myHeader)
   }
+
+  addEventListener(type, listener) {
+
+      if (typeof listener === 'function') {
+          let event = { target: this }
+          let that = this
+          this['on' + type] = function () {
+              listener.call(that, event)
+          }
+      }
+  }
 }
