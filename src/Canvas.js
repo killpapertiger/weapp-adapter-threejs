@@ -25,5 +25,34 @@ export default function Canvas() {
     return ret
   }
 
+  canvas.mrChildren = [];
+
+  canvas.onUpdate = function(callback) {
+    this._updateCallback = callback;
+  }
+
+  canvas.update = function() {
+    if (this._updateCallback){
+      this._updateCallback(this);
+    }
+  }
+
+  canvas.handleEvent = function(opt) {
+    if (!this.mrChildren){
+      return;
+    }
+
+    for (let i = 0; i < this.mrChildren.length; i++){
+      const e = this.mrChildren[i];
+      if (e.hitTest){
+        const b = e.hitTest(opt);
+        if (b){
+          e.handleEvent(opt);
+          break;
+        }
+      }
+    }
+  }
+
   return canvas
 }
